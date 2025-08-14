@@ -78,27 +78,34 @@ function updateValues() {
 // ==== Remove Transaction ====
 function removeTransaction(id) {
   transactions = transactions.filter(transaction => transaction.id !== id);
-  saveTransactions();
-  Init();
+  saveTransactions(); // save first
+  Init(); 
 }
 
 // ==== Save to Firebase ====
 function saveTransactions() {
   if (currentUser) {
     firebase.database().ref('users/' + currentUser.uid + '/transactions')
-      .set(transactions);
+      .set(transactions)
+      .catch(error => console.error("Error saving transactions:", error));
   }
 }
 
 // ==== Load from Firebase ====
 function loadTransactions() {
-  if (currentUser) {
-    firebase.database().ref('users/' + currentUser.uid + '/transactions')
-      .once('value')
-      .then(snapshot => {
-        transactions = snapshot.val() || [];
-        Init();
-      });
+      if (currentUser) {
+      firebase.database().ref('users/' + currentUser.uid + '/transactions')
+        .once('value')
+        .then(snapshot => {
+          const data = snapshot.val();
+          transactions = data ? data : [];
+          Init();
+        }
+      )
+        .catch(error => console.error("Error loading transactions:", error));
+
+  
+      
   }
 }
 
