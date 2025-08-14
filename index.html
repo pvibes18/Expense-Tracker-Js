@@ -7,23 +7,23 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Expense Tracker</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="firebase-config.js"></script>
 
     <script>
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(function(user) {
         if (!user) {
             window.location.href = "login.html"; // Redirect if not logged in
         }
     });
 
     function logout() {
-        firebase.auth().signOut().then(() => {
+        firebase.auth().signOut().then(function() {
             window.location.href = "login.html";
         });
     }
-</script>
+    </script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
